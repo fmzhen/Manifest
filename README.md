@@ -1,0 +1,4 @@
+Manifest
+========
+
+cloudfoundry manifest
