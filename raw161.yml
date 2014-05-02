@@ -1,9 +1,9 @@
 ---
 <%
-director_uuid = "c5061cbf-c7c8-4751-9814-19efcc06f196"    #change
+director_uuid = "c5061cbf-c7c8-4751-9814-19efcc06f196"   
 protocol = "http"
 cf_release = "161"
-ip_address = "10.10.101.131"               #change
+ip_address = "10.10.101.131"              
 common_password = "c1oudc0w"
 root_domain = "#{ip_address}.xip.io"
 deployment_name = "cf-v161"
@@ -14,11 +14,11 @@ releases:
  - name: cf
    version: <%= cf_release %>
 compilation:
-  workers: 8             #change
+  workers: 8            
   network: default
   reuse_compilation_vms: true
   cloud_properties:
-    instance_type: m1.small     #change
+    instance_type: compile
 update:
   canaries: 1
   canary_watch_time: 30000-300000
@@ -32,33 +32,33 @@ networks:
     type: dynamic
     cloud_properties:
       security_groups:
-      - cf-public
-      - cf-private
+      - Allopen
+
 resource_pools:
   - name: small
     network: default
-    size: 17              #change
+    size: 16          
     stemcell:
       name: bosh-openstack-kvm-ubuntu
       version: latest
     cloud_properties:
-      instance_type: m1.small  #change
+      instance_type: m1.small 
   - name: medium
     network: default
-    size: 0                #change
+    size: 0               
     stemcell:
       name: bosh-openstack-kvm-ubuntu
       version: latest
     cloud_properties:
-      instance_type: m1.medium  #change
+      instance_type: m1.medium 
   - name: large
     network: default
-    size: 1            #change
+    size: 1           
     stemcell:
       name: bosh-openstack-kvm-ubuntu
       version: latest
     cloud_properties:
-      instance_type: m1.large  #change
+      instance_type: m1.large  
 jobs:
 - instances: 1
   name: haproxy
@@ -74,8 +74,8 @@ jobs:
     router:
       servers:
         z1:
-        - 0.router.default.<%= deployment_name %>.microbosh  #change bosh&microbosh
-        z2: []     #if one it is []
+        - 0.router.default.<%= deployment_name %>.microbosh  
+        z2: []    
   resource_pool: small
   template: haproxy
 - instances: 1
@@ -136,8 +136,8 @@ jobs:
   properties:
     ccdb: ccdb
     loggregator_endpoint:
-            host: 0.loggregator-trafficcontroller.default.<%= deployment_name %>.microbosh   #change
-    nfs_server: 0.nfs.default.<%= deployment_name %>.microbosh    #change
+            host: 0.loggregator-trafficcontroller.default.<%= deployment_name %>.microbosh  
+    nfs_server: 0.nfs.default.<%= deployment_name %>.microbosh    
   resource_pool: small
   template: cloud_controller_ng
 - instances: 1
